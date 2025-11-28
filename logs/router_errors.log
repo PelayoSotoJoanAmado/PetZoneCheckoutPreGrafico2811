@@ -1,0 +1,108 @@
+[15-Nov-2025 04:39:55 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:39:55 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:39:55 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:39:55 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:39:55 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:39:55 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:39:55 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:39:55 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:39:55 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:39:55 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:39:56 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:39:56 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:39:56 Europe/Berlin] Recurso: carrito
+[15-Nov-2025 04:39:56 Europe/Berlin] Recurso: productos
+[15-Nov-2025 04:39:56 Europe/Berlin] Acción: list
+[15-Nov-2025 04:39:56 Europe/Berlin] Acción: get
+[15-Nov-2025 04:39:56 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/CarritoController.php
+[15-Nov-2025 04:39:56 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/ProductoController.php
+[15-Nov-2025 04:39:56 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "public", expecting end of file in C:\xampp\htdocs\PetZonev3\controller\ProductoController.php on line 51
+[15-Nov-2025 04:39:56 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "catch", expecting "function" or "const" in C:\xampp\htdocs\PetZonev3\controller\CarritoController.php on line 63
+[15-Nov-2025 04:40:22 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:40:22 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:40:22 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:40:22 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:40:22 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:40:22 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:40:22 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:40:22 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:40:23 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:40:23 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:40:23 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:40:23 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:40:23 Europe/Berlin] Recurso: productos
+[15-Nov-2025 04:40:23 Europe/Berlin] Recurso: carrito
+[15-Nov-2025 04:40:23 Europe/Berlin] Acción: get
+[15-Nov-2025 04:40:23 Europe/Berlin] Acción: list
+[15-Nov-2025 04:40:23 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/CarritoController.php
+[15-Nov-2025 04:40:23 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/ProductoController.php
+[15-Nov-2025 04:40:23 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "public", expecting end of file in C:\xampp\htdocs\PetZonev3\controller\ProductoController.php on line 51
+[15-Nov-2025 04:40:23 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "catch", expecting "function" or "const" in C:\xampp\htdocs\PetZonev3\controller\CarritoController.php on line 63
+[15-Nov-2025 04:43:16 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:43:16 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:43:16 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:43:16 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:43:16 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:43:16 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:43:16 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:43:16 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:43:16 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:43:16 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:43:17 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:43:17 Europe/Berlin] Recurso: NINGUNO
+[15-Nov-2025 04:43:17 Europe/Berlin] Acción: list
+[15-Nov-2025 04:43:17 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:43:17 Europe/Berlin] Recurso: carrito
+[15-Nov-2025 04:43:17 Europe/Berlin] Acción: get
+[15-Nov-2025 04:43:17 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/CarritoController.php
+[15-Nov-2025 04:43:17 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "catch", expecting "function" or "const" in C:\xampp\htdocs\PetZonev3\controller\CarritoController.php on line 63
+[15-Nov-2025 04:45:42 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:45:42 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:45:42 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:45:42 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:45:42 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:45:42 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:45:42 Europe/Berlin] Recurso: carrito
+[15-Nov-2025 04:45:42 Europe/Berlin] Acción: get
+[15-Nov-2025 04:45:42 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/CarritoController.php
+[15-Nov-2025 04:45:42 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "catch", expecting "function" or "const" in C:\xampp\htdocs\PetZonev3\controller\CarritoController.php on line 63
+[15-Nov-2025 04:46:05 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:46:05 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:46:05 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:46:05 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:46:05 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:46:05 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:46:05 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:46:05 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:46:06 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:46:06 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:46:06 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:46:06 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:46:06 Europe/Berlin] Recurso: productos
+[15-Nov-2025 04:46:06 Europe/Berlin] Recurso: carrito
+[15-Nov-2025 04:46:06 Europe/Berlin] Acción: list
+[15-Nov-2025 04:46:06 Europe/Berlin] Acción: get
+[15-Nov-2025 04:46:06 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/ProductoController.php
+[15-Nov-2025 04:46:06 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/CarritoController.php
+[15-Nov-2025 04:46:06 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "catch", expecting "function" or "const" in C:\xampp\htdocs\PetZonev3\controller\CarritoController.php on line 63
+[15-Nov-2025 04:46:06 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "public", expecting end of file in C:\xampp\htdocs\PetZonev3\controller\ProductoController.php on line 51
+[15-Nov-2025 04:46:43 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:46:43 Europe/Berlin] === ROUTER INICIO ===
+[15-Nov-2025 04:46:43 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:46:43 Europe/Berlin] Buscando config en: C:\xampp\htdocs\PetZonev3\routes/../config/conexion.php
+[15-Nov-2025 04:46:43 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:46:43 Europe/Berlin] Probando conexión a BD...
+[15-Nov-2025 04:46:43 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:46:43 Europe/Berlin] 🔗 Intentando conectar a BD: db-us.supercores.host:3306
+[15-Nov-2025 04:46:43 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:46:43 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:46:43 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:46:43 Europe/Berlin] ✅ Conexión a BD exitosa
+[15-Nov-2025 04:46:43 Europe/Berlin] Recurso: carrito
+[15-Nov-2025 04:46:43 Europe/Berlin] Recurso: productos
+[15-Nov-2025 04:46:43 Europe/Berlin] Acción: get
+[15-Nov-2025 04:46:43 Europe/Berlin] Acción: list
+[15-Nov-2025 04:46:43 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/CarritoController.php
+[15-Nov-2025 04:46:43 Europe/Berlin] Buscando controller: C:\xampp\htdocs\PetZonev3\routes/../controller/ProductoController.php
+[15-Nov-2025 04:46:43 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "catch", expecting "function" or "const" in C:\xampp\htdocs\PetZonev3\controller\CarritoController.php on line 63
+[15-Nov-2025 04:46:43 Europe/Berlin] PHP Parse error:  syntax error, unexpected token "public", expecting end of file in C:\xampp\htdocs\PetZonev3\controller\ProductoController.php on line 51
