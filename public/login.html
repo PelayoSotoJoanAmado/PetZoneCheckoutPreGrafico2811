@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - PetZone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar__logo">
+                <a href="../index.html">
+                    <img src="img/Logo.png" alt="Logo PetZone" class="navbar__logo-img">
+                </a>
+                <a href="../index.html" class="navbar__logo-text">PetZone</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <span class="material-icons auth-icon">person</span>
+                    <h1>Iniciar Sesión</h1>
+                    <p>Accede a tu cuenta de PetZone</p>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label>Correo Electrónico</label>
+                        <div class="input-icon">
+                            <span class="material-icons">email</span>
+                            <input type="email" id="email" required placeholder="tu@email.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <div class="input-icon">
+                            <span class="material-icons">lock</span>
+                            <input type="password" id="password" required placeholder="••••••••">
+                            <button type="button" class="toggle-password" onclick="togglePassword()">
+                                <span class="material-icons">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-auth btn-primary">
+                        <span class="material-icons">login</span>
+                        Iniciar Sesión
+                    </button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__logo">
+                <img src="img/Logo.png" alt="PetZone Logo" class="footer__logo-img">
+                <span class="footer__logo-text">PetZone</span>
+            </div>
+            <nav class="footer__nav">
+                <ul class="footer__menu">
+                    <li class="footer__copyright">PetZone © 2025. Todos los derechos reservados.</li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
