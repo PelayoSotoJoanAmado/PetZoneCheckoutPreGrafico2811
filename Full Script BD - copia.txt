@@ -1,0 +1,733 @@
+-- =============================================
+-- BASE DE DATOS PETZONE - ESTRUCTURA COMPLETA
+-- =============================================
+
+CREATE DATABASE IF NOT EXISTS petzone_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE petzone_db;
+
+-- =============================================
+-- TABLA: usuarios (para el dashboard)
+-- =============================================
+CREATE TABLE usuarios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    nombre_completo VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    rol ENUM('admin', 'moderador') DEFAULT 'admin',
+    activo TINYINT(1) DEFAULT 1,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ultimo_acceso TIMESTAMP NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Usuario admin por defecto (password: admin123)
+INSERT INTO usuarios (username, password, nombre_completo, email, rol) VALUES
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrador Principal', 'admin@petzone.com', 'admin');
+
+-- =============================================
+-- TABLA: categorias (para productos)
+-- =============================================
+CREATE TABLE categorias (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL UNIQUE,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    descripcion TEXT,
+    icono VARCHAR(100),
+    orden INT DEFAULT 0,
+    activo TINYINT(1) DEFAULT 1,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO categorias (nombre, slug, descripcion, orden) VALUES
+('Comida', 'comida', 'Alimentos balanceados y premium para mascotas', 1),
+('Juguetes', 'juguetes', 'Juguetes interactivos y entretenimiento', 2),
+('Aseo', 'aseo', 'Productos de higiene y cuidado personal', 3),
+('Antipulgas', 'antipulgas', 'Tratamientos contra pulgas y parásitos', 4),
+('Accesorios', 'accesorios', 'Collares, correas, camas y más', 5);
+
+-- =============================================
+-- TABLA: productos
+-- =============================================
+CREATE TABLE productos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(150) NOT NULL,
+    descripcion TEXT,
+    categoria_id INT NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    precio_oferta DECIMAL(10, 2) NULL,
+    stock INT DEFAULT 0,
+    imagen VARCHAR(255),
+    imagen_hover VARCHAR(255) NULL,
+    codigo_sku VARCHAR(50) UNIQUE,
+    peso DECIMAL(8, 2) COMMENT 'Peso en kg',
+    dimensiones VARCHAR(100) COMMENT 'Alto x Ancho x Largo',
+    destacado TINYINT(1) DEFAULT 0,
+    nuevo TINYINT(1) DEFAULT 0,
+    activo TINYINT(1) DEFAULT 1,
+    visitas INT DEFAULT 0,
+    ventas INT DEFAULT 0,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE RESTRICT,
+    INDEX idx_categoria (categoria_id),
+    INDEX idx_activo (activo),
+    INDEX idx_destacado (destacado)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Productos iniciales del proyecto
+INSERT INTO productos (nombre, descripcion, categoria_id, precio, stock, imagen, codigo_sku, destacado) VALUES
+('Comida para Perros Premium', '1 Kg de alimento balanceado premium', 1, 15.00, 50, '../IMG/Productos/ComidaPerroPremium.webp', 'PROD-001', 1),
+('Snacks para Perros', '30 Barras nutritivas', 1, 25.00, 45, '../IMG/Productos/PSnacksPerros.jpg', 'PROD-002', 0),
+('Kit Peluquería', 'Kit completo para perros', 3, 40.00, 30, '../IMG/Productos/PKitPeluqueria.jpg', 'PROD-003', 1),
+('Cama Acogedora', 'Cama pequeña y cómoda', 2, 46.00, 25, '../IMG/Productos/PCamaAcogedora.jpg', 'PROD-004', 0),
+('Pastillas Antipulgas', 'Paquete de 3 pastillas', 4, 60.00, 40, '../IMG/Productos/PastillaAntipulgas.webp', 'PROD-005', 1),
+('Bola dispensadora interactiva', 'Juguete para gatos', 2, 30.00, 35, '../IMG/Productos/PJugueteGato.jpg', 'PROD-006', 0),
+('Comida para Gatos Premium', '2 Kg de alimento premium', 1, 35.00, 28, '../IMG/Productos/ComidaGatosPremium.jpg', 'PROD-007', 0),
+('Pelota Interactiva', 'Pelota para perros', 2, 22.00, 50, '../IMG/Productos/PelotaInteractivaPerro.webp', 'PROD-008', 1),
+('Shampoo Hipoalergénico', '500ml para mascotas sensibles', 3, 32.00, 42, '../IMG/Productos/ShampooHipoalergénico.webp', 'PROD-009', 0),
+('Tratamiento Antipulgas', '2 Pipetas', 4, 30.00, 38, '../IMG/Productos/TratamientoAntipulgas.webp', 'PROD-010', 0),
+('Alimento para Cachorros', '3 Kg especial cachorros', 1, 55.00, 20, '../IMG/Productos/AlimentoCachorros.webp', 'PROD-011', 1),
+('Rascador para Gatos', 'Mediano con juguetes', 2, 65.00, 15, '../IMG/Productos/RascadorGatos.jpg', 'PROD-012', 0);
+
+-- =============================================
+-- TABLA: sliders (banners superiores)
+-- =============================================
+CREATE TABLE sliders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(200) NOT NULL,
+    descripcion TEXT,
+    imagen VARCHAR(255) NOT NULL,
+    enlace VARCHAR(255) COMMENT 'URL de destino',
+    texto_boton VARCHAR(50) DEFAULT 'Ver más',
+    posicion ENUM('principal', 'secundario', 'lateral') DEFAULT 'principal',
+    orden INT DEFAULT 0,
+    activo TINYINT(1) DEFAULT 1,
+    fecha_inicio DATE NULL,
+    fecha_fin DATE NULL,
+    clicks INT DEFAULT 0,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_activo_orden (activo, orden)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO sliders (titulo, descripcion, imagen, enlace, posicion, orden, activo) VALUES
+('Promoción de Primavera', '¡Descuentos especiales en todos los productos!', '../IMG/slider1.jpg', 'productos.php', 'principal', 1, 1),
+('Nuevos Servicios de Spa', 'El mejor cuidado para tu mascota', '../IMG/slider2.jpg', 'servicios.php', 'principal', 2, 1),
+('Consulta Veterinaria Gratis', 'Primera consulta sin costo', '../IMG/slider3.jpg', 'reserva.php', 'principal', 3, 1);
+
+-- =============================================
+-- TABLA: anuncios (banner inferior animado)
+-- =============================================
+CREATE TABLE anuncios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    mensaje TEXT NOT NULL,
+    tipo ENUM('promocion', 'aviso_general', 'evento', 'urgente') DEFAULT 'aviso_general',
+    color_fondo VARCHAR(7) DEFAULT '#23906F' COMMENT 'Color en formato HEX',
+    color_texto VARCHAR(7) DEFAULT '#FFFFFF',
+    icono VARCHAR(50) COMMENT 'Nombre del icono Material Icons',
+    enlace VARCHAR(255),
+    velocidad INT DEFAULT 30 COMMENT 'Velocidad de animación en segundos',
+    activo TINYINT(1) DEFAULT 1,
+    prioridad INT DEFAULT 0 COMMENT 'Mayor prioridad = se muestra primero',
+    fecha_inicio DATETIME NULL,
+    fecha_fin DATETIME NULL,
+    visualizaciones INT DEFAULT 0,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_activo_prioridad (activo, prioridad DESC)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO anuncios (mensaje, tipo, color_fondo, color_texto, icono, velocidad, prioridad, activo) VALUES
+('🎉 ¡DESCUENTO DEL 20% EN TODOS LOS PRODUCTOS DE ASEO! 🐕 ¡APROVECHA AHORA!', 'promocion', '#FF6B6B', '#FFFFFF', 'local_offer', 30, 10, 1),
+('📢 Nuevos horarios: Lunes a Viernes 8:00 AM - 7:00 PM | Sábados 8:00 AM - 5:00 PM', 'aviso_general', '#23906F', '#FFFFFF', 'schedule', 35, 5, 1),
+('🏥 Campaña de Vacunación del 15 al 20 de Noviembre - Reserva tu cita', 'evento', '#4ECDC4', '#FFFFFF', 'medical_services', 40, 8, 1);
+
+-- =============================================
+-- TABLA: contenido_general (textos editables)
+-- =============================================
+CREATE TABLE contenido_general (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    seccion VARCHAR(100) NOT NULL COMMENT 'nosotros, servicios, footer, etc',
+    clave VARCHAR(100) NOT NULL COMMENT 'mision, vision, telefono, etc',
+    tipo ENUM('texto', 'textarea', 'imagen', 'video', 'html') DEFAULT 'texto',
+    valor TEXT NOT NULL,
+    descripcion VARCHAR(255) COMMENT 'Descripción del contenido',
+    editable TINYINT(1) DEFAULT 1,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_seccion_clave (seccion, clave)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO contenido_general (seccion, clave, tipo, valor, descripcion) VALUES
+('nosotros', 'descripcion_principal', 'textarea', 'PetZone fue creada con la convicción de que las mascotas son más que compañeros...', 'Descripción principal página Nosotros'),
+('contacto', 'telefono', 'texto', '935 873 268', 'Número de teléfono principal'),
+('contacto', 'email', 'texto', 'PetZone@login@gmail.com', 'Correo electrónico de contacto'),
+('contacto', 'direccion', 'texto', 'Panamericana Norte, Av. Alfredo Mendiola 6377, Los Olivos 15306', 'Dirección física'),
+('footer', 'copyright', 'texto', 'PetZone © 2025. Todos los derechos reservados.', 'Texto de copyright');
+
+-- =============================================
+-- TABLA: carrito
+-- =============================================
+CREATE TABLE carrito (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    session_id VARCHAR(100) NOT NULL,
+    producto_id INT NOT NULL,
+    cantidad INT DEFAULT 1,
+    precio_unitario DECIMAL(10, 2) NOT NULL,
+    fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE CASCADE,
+    INDEX idx_session (session_id),
+    UNIQUE KEY unique_session_producto (session_id, producto_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================
+-- TABLA: pedidos
+-- =============================================
+CREATE TABLE pedidos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    codigo_pedido VARCHAR(20) UNIQUE NOT NULL,
+    nombre_cliente VARCHAR(100) NOT NULL,
+    email_cliente VARCHAR(100) NOT NULL,
+    telefono_cliente VARCHAR(20) NOT NULL,
+    direccion_envio TEXT NOT NULL,
+    subtotal DECIMAL(10, 2) NOT NULL,
+    descuento DECIMAL(10, 2) DEFAULT 0,
+    impuesto DECIMAL(10, 2) DEFAULT 0,
+    total DECIMAL(10, 2) NOT NULL,
+    metodo_pago ENUM('tarjeta', 'yape', 'plin', 'efectivo', 'transferencia') NOT NULL,
+    estado ENUM('pendiente', 'procesando', 'enviado', 'entregado', 'cancelado') DEFAULT 'pendiente',
+    notas TEXT,
+    fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_codigo (codigo_pedido),
+    INDEX idx_estado (estado),
+    INDEX idx_fecha (fecha_pedido)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================
+-- TABLA: detalle_pedidos
+-- =============================================
+CREATE TABLE detalle_pedidos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    pedido_id INT NOT NULL,
+    producto_id INT NOT NULL,
+    nombre_producto VARCHAR(150) NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10, 2) NOT NULL,
+    subtotal DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
+    FOREIGN KEY (producto_id) REFERENCES productos(id) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================
+-- TABLA: actividad_admin (logs del dashboard)
+-- =============================================
+CREATE TABLE actividad_admin (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    accion VARCHAR(100) NOT NULL,
+    modulo VARCHAR(50) NOT NULL,
+    detalle TEXT,
+    ip_address VARCHAR(45),
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    INDEX idx_fecha (fecha DESC),
+    INDEX idx_modulo (modulo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================
+-- VISTAS ÚTILES
+-- =============================================
+
+-- Vista de productos con categoría
+CREATE VIEW vista_productos AS
+SELECT 
+    p.*,
+    c.nombre as categoria_nombre,
+    c.slug as categoria_slug,
+    CASE WHEN p.precio_oferta IS NOT NULL THEN p.precio_oferta ELSE p.precio END as precio_final
+FROM productos p
+INNER JOIN categorias c ON p.categoria_id = c.id;
+
+-- Vista de estadísticas del dashboard
+CREATE VIEW estadisticas_dashboard AS
+SELECT
+    (SELECT COUNT(*) FROM productos WHERE activo = 1) as total_productos,
+    (SELECT COUNT(*) FROM sliders WHERE activo = 1) as total_sliders_activos,
+    (SELECT COUNT(*) FROM anuncios WHERE activo = 1) as total_anuncios_activos,
+    (SELECT COUNT(*) FROM pedidos WHERE DATE(fecha_pedido) = CURDATE()) as pedidos_hoy,
+    (SELECT SUM(total) FROM pedidos WHERE DATE(fecha_pedido) = CURDATE()) as ventas_hoy,
+    (SELECT COUNT(*) FROM productos WHERE stock < 10) as productos_bajo_stock;
+
+-- =============================================
+-- STORED PROCEDURES
+-- =============================================
+
+DELIMITER //
+
+-- Procedimiento para obtener productos filtrados
+CREATE PROCEDURE sp_obtener_productos(
+    IN p_categoria VARCHAR(50),
+    IN p_busqueda VARCHAR(100),
+    IN p_orden VARCHAR(20),
+    IN p_limite INT
+)
+BEGIN
+    SET @query = 'SELECT * FROM vista_productos WHERE activo = 1';
+    
+    IF p_categoria IS NOT NULL AND p_categoria != 'todos' THEN
+        SET @query = CONCAT(@query, ' AND categoria_slug = "', p_categoria, '"');
+    END IF;
+    
+    IF p_busqueda IS NOT NULL THEN
+        SET @query = CONCAT(@query, ' AND (nombre LIKE "%', p_busqueda, '%" OR descripcion LIKE "%', p_busqueda, '%")');
+    END IF;
+    
+    CASE p_orden
+        WHEN 'precio_asc' THEN SET @query = CONCAT(@query, ' ORDER BY precio_final ASC');
+        WHEN 'precio_desc' THEN SET @query = CONCAT(@query, ' ORDER BY precio_final DESC');
+        WHEN 'nombre' THEN SET @query = CONCAT(@query, ' ORDER BY nombre ASC');
+        WHEN 'nuevo' THEN SET @query = CONCAT(@query, ' ORDER BY fecha_creacion DESC');
+        ELSE SET @query = CONCAT(@query, ' ORDER BY destacado DESC, id DESC');
+    END CASE;
+    
+    IF p_limite > 0 THEN
+        SET @query = CONCAT(@query, ' LIMIT ', p_limite);
+    END IF;
+    
+    PREPARE stmt FROM @query;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+END //
+
+-- Procedimiento para crear pedido
+CREATE PROCEDURE sp_crear_pedido(
+    IN p_session_id VARCHAR(100),
+    IN p_nombre VARCHAR(100),
+    IN p_email VARCHAR(100),
+    IN p_telefono VARCHAR(20),
+    IN p_direccion TEXT,
+    IN p_metodo_pago VARCHAR(20),
+    IN p_notas TEXT,
+    OUT p_codigo_pedido VARCHAR(20)
+)
+BEGIN
+    DECLARE v_subtotal DECIMAL(10,2);
+    DECLARE v_pedido_id INT;
+    
+    -- Generar código único
+    SET p_codigo_pedido = CONCAT('PZ-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(FLOOR(RAND() * 9999), 4, '0'));
+    
+    -- Calcular subtotal del carrito
+    SELECT SUM(cantidad * precio_unitario) INTO v_subtotal
+    FROM carrito
+    WHERE session_id = p_session_id;
+    
+    -- Insertar pedido
+    INSERT INTO pedidos (codigo_pedido, nombre_cliente, email_cliente, telefono_cliente, 
+                        direccion_envio, subtotal, total, metodo_pago, notas)
+    VALUES (p_codigo_pedido, p_nombre, p_email, p_telefono, p_direccion, 
+            v_subtotal, v_subtotal, p_metodo_pago, p_notas);
+    
+    SET v_pedido_id = LAST_INSERT_ID();
+    
+    -- Copiar items del carrito al detalle del pedido
+    INSERT INTO detalle_pedidos (pedido_id, producto_id, nombre_producto, cantidad, precio_unitario, subtotal)
+    SELECT v_pedido_id, c.producto_id, p.nombre, c.cantidad, c.precio_unitario, (c.cantidad * c.precio_unitario)
+    FROM carrito c
+    INNER JOIN productos p ON c.producto_id = p.id
+    WHERE c.session_id = p_session_id;
+    
+    -- Actualizar stock de productos
+    UPDATE productos p
+    INNER JOIN carrito c ON p.id = c.producto_id
+    SET p.stock = p.stock - c.cantidad,
+        p.ventas = p.ventas + c.cantidad
+    WHERE c.session_id = p_session_id;
+    
+    -- Limpiar carrito
+    DELETE FROM carrito WHERE session_id = p_session_id;
+END //
+
+DELIMITER ;
+
+-- =============================================
+-- TRIGGERS
+-- =============================================
+
+DELIMITER //
+
+-- Trigger para actualizar visitas de productos
+CREATE TRIGGER trg_producto_visita
+AFTER INSERT ON carrito
+FOR EACH ROW
+BEGIN
+    UPDATE productos SET visitas = visitas + 1 WHERE id = NEW.producto_id;
+END //
+
+-- Trigger para validar stock antes de agregar al carrito
+CREATE TRIGGER trg_validar_stock
+BEFORE INSERT ON carrito
+FOR EACH ROW
+BEGIN
+    DECLARE v_stock INT;
+    SELECT stock INTO v_stock FROM productos WHERE id = NEW.producto_id;
+    
+    IF v_stock < NEW.cantidad THEN
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Stock insuficiente';
+    END IF;
+END //
+
+DELIMITER ;
+
+-- =============================================
+-- ÍNDICES ADICIONALES PARA OPTIMIZACIÓN
+-- =============================================
+CREATE INDEX idx_productos_busqueda ON productos(nombre, descripcion(100));
+CREATE INDEX idx_pedidos_cliente ON pedidos(email_cliente, telefono_cliente);
+CREATE INDEX idx_anuncios_fechas ON anuncios(fecha_inicio, fecha_fin);
+
+-- =============================================
+-- FIN DE LA ESTRUCTURA
+-- =============================================
+
+-- =============================================
+-- ACTUALIZACIÓN DE CATEGORÍAS Y PRODUCTOS - PETZONE
+-- Ejecutar en phpMyAdmin o cliente SQL
+-- =============================================
+
+-- 1. VERIFICAR/AGREGAR CATEGORÍA DE ACCESORIOS
+INSERT INTO categorias (nombre, slug, descripcion, orden, activo) 
+VALUES ('Accesorios', 'accesorios', 'Collares, correas, camas y más', 5, 1)
+ON DUPLICATE KEY UPDATE 
+    descripcion = 'Collares, correas, camas y más',
+    activo = 1;
+
+-- 2. VERIFICAR TODAS LAS CATEGORÍAS ESTÉN ACTIVAS
+UPDATE categorias SET activo = 1;
+
+-- 3. VERIFICAR QUE LAS RUTAS DE IMÁGENES SEAN CORRECTAS
+-- (Las imágenes deben estar en /IMG/Productos/)
+UPDATE productos SET 
+    imagen = REPLACE(imagen, '../IMG/', 'IMG/'),
+    imagen = REPLACE(imagen, 'IMG/IMG/', 'IMG/')
+WHERE imagen IS NOT NULL;
+
+-- 4. EJEMPLO: AGREGAR PRODUCTOS DE ACCESORIOS SI NO EXISTEN
+-- (Ajusta esto según tus productos reales)
+
+-- Verificar que productos con categoría de juguetes (ID 2) que sean camas/collares se muevan a accesorios
+-- Primero obtén el ID de la categoría accesorios:
+SET @accesorios_id = (SELECT id FROM categorias WHERE slug = 'accesorios' LIMIT 1);
+
+-- Actualizar productos que son accesorios pero están mal categorizados
+UPDATE productos SET categoria_id = @accesorios_id
+WHERE nombre LIKE '%collar%' OR nombre LIKE '%correa%' OR nombre LIKE '%cama%';
+
+-- 5. ASEGURAR QUE TODOS LOS PRODUCTOS ACTIVOS TENGAN STOCK
+UPDATE productos SET activo = 1 WHERE stock > 0;
+UPDATE productos SET activo = 0 WHERE stock = 0;
+
+-- 6. VERIFICAR ESTRUCTURA (OPCIONAL - SOLO PARA DEBUG)
+SELECT 
+    c.nombre as Categoria,
+    COUNT(p.id) as Total_Productos,
+    SUM(CASE WHEN p.activo = 1 THEN 1 ELSE 0 END) as Productos_Activos,
+    SUM(CASE WHEN p.stock > 0 THEN 1 ELSE 0 END) as Con_Stock
+FROM categorias c
+LEFT JOIN productos p ON c.id = p.categoria_id
+GROUP BY c.id, c.nombre
+ORDER BY c.orden;
+
+-- 7. VER PRODUCTOS SIN IMAGEN O CON RUTA INCORRECTA
+SELECT id, nombre, imagen, categoria_id 
+FROM productos 
+WHERE imagen IS NULL OR imagen = '' OR imagen NOT LIKE 'IMG/%'
+LIMIT 10;
+
+-- =============================================
+-- SISTEMA DE SERVICIOS Y RESERVAS - PETZONE
+-- Ejecutar en phpMyAdmin
+-- =============================================
+
+-- ============================================
+-- TABLA: servicios
+-- ============================================
+CREATE TABLE IF NOT EXISTS servicios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(150) NOT NULL,
+    slug VARCHAR(150) NOT NULL UNIQUE,
+    descripcion TEXT,
+    precio DECIMAL(10, 2) NOT NULL,
+    duracion_minutos INT DEFAULT 60 COMMENT 'Duración estimada del servicio',
+    imagen VARCHAR(255),
+    caracteristicas TEXT COMMENT 'JSON con array de características',
+    categoria ENUM('basico', 'premium', 'deluxe') DEFAULT 'basico',
+    disponible TINYINT(1) DEFAULT 1,
+    orden INT DEFAULT 0,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_slug (slug),
+    INDEX idx_disponible (disponible),
+    INDEX idx_categoria (categoria)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ============================================
+-- INSERTAR SERVICIOS INICIALES
+-- ============================================
+INSERT INTO servicios (nombre, slug, descripcion, precio, duracion_minutos, imagen, caracteristicas, categoria, orden) VALUES
+(
+    'La Elegancia Esencial',
+    'elegancia-esencial',
+    'Servicio básico completo de spa para tu mascota',
+    50.00,
+    90,
+    'IMG/Servicios/S01.avif',
+    '["Baño Suave con Shampoo Apto para Mascotas","Corte y Limado de Uñas","Limpieza de Oreja","Hidratación de Almohadillas de las Patas","Secado con Pelusa y Cepillado","Corbata de Moño o Collar Floral de Cortesía"]',
+    'basico',
+    1
+),
+(
+    'El Día de Spa Exclusivo',
+    'dia-spa-exclusivo',
+    'Experiencia completa de spa con servicios premium',
+    80.00,
+    120,
+    'IMG/Servicios/S02.avif',
+    '["Baño de Acondicionamiento Puro","Corte de pelo de Cuerpo Completo Según Raza","Recorte, Limado y Pulido de Uñas","Limpieza de Oídos y Cepillado de Dientes","Aplicación de Bálsamo Calmante para Patas","Baño Suave con Shampoo Apto para Mascotas"]',
+    'premium',
+    2
+),
+(
+    'El Trato de Reyes',
+    'trato-reyes',
+    'El servicio más completo y lujoso para tu mascota',
+    100.00,
+    150,
+    'IMG/Servicios/S03.avif',
+    '["Incluye lo del Día de Spa Exclusivo","Tratamiento Facial de Arándanos para Iluminar y Limpiar","Pedicura de Lujo con Esmalte de Uñas","Mascarilla Hidratante para Pelaje Sedoso y Suave","Secado a Mano para un Acabado Esponjoso","Accesorio Personalizado de tu Elección"]',
+    'deluxe',
+    3
+);
+
+-- ============================================
+-- TABLA: reservas
+-- ============================================
+CREATE TABLE IF NOT EXISTS reservas (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    codigo_reserva VARCHAR(20) UNIQUE NOT NULL,
+    servicio_id INT NOT NULL,
+    nombre_cliente VARCHAR(100) NOT NULL,
+    email_cliente VARCHAR(100) NOT NULL,
+    telefono_cliente VARCHAR(20) NOT NULL,
+    nombre_mascota VARCHAR(100) NOT NULL,
+    tipo_mascota ENUM('perro', 'gato', 'otro') DEFAULT 'perro',
+    fecha_reserva DATE NOT NULL,
+    hora_reserva TIME NOT NULL,
+    notas TEXT,
+    estado ENUM('pendiente', 'confirmada', 'completada', 'cancelada') DEFAULT 'pendiente',
+    subtotal DECIMAL(10, 2) NOT NULL,
+    total DECIMAL(10, 2) NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (servicio_id) REFERENCES servicios(id) ON DELETE RESTRICT,
+    INDEX idx_codigo (codigo_reserva),
+    INDEX idx_fecha (fecha_reserva),
+    INDEX idx_estado (estado),
+    INDEX idx_cliente (email_cliente, telefono_cliente)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ============================================
+-- VISTA: servicios_disponibles
+-- ============================================
+CREATE OR REPLACE VIEW vista_servicios_disponibles AS
+SELECT 
+    id,
+    nombre,
+    slug,
+    descripcion,
+    precio,
+    duracion_minutos,
+    imagen,
+    caracteristicas,
+    categoria,
+    orden,
+    disponible
+FROM servicios
+WHERE disponible = 1
+ORDER BY orden ASC, nombre ASC;
+
+-- ============================================
+-- STORED PROCEDURE: Crear Reserva
+-- ============================================
+DELIMITER //
+
+CREATE PROCEDURE sp_crear_reserva(
+    IN p_servicio_id INT,
+    IN p_nombre VARCHAR(100),
+    IN p_email VARCHAR(100),
+    IN p_telefono VARCHAR(20),
+    IN p_nombre_mascota VARCHAR(100),
+    IN p_tipo_mascota VARCHAR(10),
+    IN p_fecha_reserva DATE,
+    IN p_hora_reserva TIME,
+    IN p_notas TEXT,
+    OUT p_codigo_reserva VARCHAR(20)
+)
+BEGIN
+    DECLARE v_precio DECIMAL(10,2);
+    
+    -- Generar código único
+    SET p_codigo_reserva = CONCAT('RES-', DATE_FORMAT(NOW(), '%Y%m%d'), '-', LPAD(FLOOR(RAND() * 9999), 4, '0'));
+    
+    -- Obtener precio del servicio
+    SELECT precio INTO v_precio FROM servicios WHERE id = p_servicio_id;
+    
+    -- Insertar reserva
+    INSERT INTO reservas (
+        codigo_reserva,
+        servicio_id,
+        nombre_cliente,
+        email_cliente,
+        telefono_cliente,
+        nombre_mascota,
+        tipo_mascota,
+        fecha_reserva,
+        hora_reserva,
+        notas,
+        subtotal,
+        total,
+        estado
+    ) VALUES (
+        p_codigo_reserva,
+        p_servicio_id,
+        p_nombre,
+        p_email,
+        p_telefono,
+        p_nombre_mascota,
+        p_tipo_mascota,
+        p_fecha_reserva,
+        p_hora_reserva,
+        p_notas,
+        v_precio,
+        v_precio,
+        'pendiente'
+    );
+END //
+
+DELIMITER ;
+
+-- ============================================
+-- VERIFICACIÓN
+-- ============================================
+
+-- Ver servicios creados
+SELECT * FROM servicios;
+
+-- Ver estructura de reservas
+DESCRIBE reservas;
+
+-- Verificar vista
+SELECT * FROM vista_servicios_disponibles;
+
+-- ============================================
+-- DATOS DE PRUEBA (OPCIONAL)
+-- ============================================
+
+-- Descomentar para insertar reserva de prueba
+/*
+CALL sp_crear_reserva(
+    1,                          -- servicio_id
+    'Juan Pérez',               -- nombre
+    'juan@example.com',         -- email
+    '987654321',                -- telefono
+    'Max',                      -- nombre_mascota
+    'perro',                    -- tipo_mascota
+    '2025-11-15',               -- fecha_reserva
+    '10:00:00',                 -- hora_reserva
+    'Primera vez en spa',       -- notas
+    @codigo                     -- OUT codigo_reserva
+);
+
+SELECT @codigo AS codigo_generado;
+SELECT * FROM reservas WHERE codigo_reserva = @codigo;
+*/
+
+-- ============================================
+-- CONSULTAS ÚTILES
+-- ============================================
+
+-- Ver todas las reservas con información del servicio
+SELECT 
+    r.codigo_reserva,
+    r.nombre_cliente,
+    r.nombre_mascota,
+    s.nombre AS servicio,
+    r.fecha_reserva,
+    r.hora_reserva,
+    r.estado,
+    r.total
+FROM reservas r
+INNER JOIN servicios s ON r.servicio_id = s.id
+ORDER BY r.fecha_reserva DESC, r.hora_reserva DESC;
+
+-- Reservas por estado
+SELECT 
+    estado,
+    COUNT(*) AS cantidad,
+    SUM(total) AS total_ingresos
+FROM reservas
+GROUP BY estado;
+
+-- Servicios más reservados
+SELECT 
+    s.nombre,
+    COUNT(r.id) AS total_reservas,
+    SUM(r.total) AS ingresos_generados
+FROM servicios s
+LEFT JOIN reservas r ON s.id = r.servicio_id
+GROUP BY s.id, s.nombre
+ORDER BY total_reservas DESC;
+
+
+-- =============================================
+-- TABLA: usuarios_web (clientes de la tienda)
+-- =============================================
+CREATE TABLE IF NOT EXISTS usuarios_web (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    activo TINYINT(1) DEFAULT 1,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ultimo_acceso TIMESTAMP NULL,
+    INDEX idx_email (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================
+-- TABLA: direcciones_usuario (múltiples direcciones)
+-- =============================================
+CREATE TABLE IF NOT EXISTS direcciones_usuario (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT NOT NULL,
+    nombre_direccion VARCHAR(50) NOT NULL COMMENT 'Ej: Casa, Trabajo, Casa de mamá',
+    departamento VARCHAR(50) NOT NULL,
+    distrito VARCHAR(50) NOT NULL,
+    direccion_completa TEXT NOT NULL,
+    es_predeterminada TINYINT(1) DEFAULT 0,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios_web(id) ON DELETE CASCADE,
+    INDEX idx_usuario (usuario_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================
+-- MODIFICAR TABLA: pedidos (agregar usuario_id)
+-- =============================================
+ALTER TABLE pedidos ADD COLUMN usuario_id INT NULL AFTER id;
+ALTER TABLE pedidos ADD FOREIGN KEY (usuario_id) REFERENCES usuarios_web(id) ON DELETE SET NULL;
+ALTER TABLE pedidos ADD INDEX idx_usuario (usuario_id);
+
+-- ============================================
+-- FIN DEL SCRIPT
+-- =============================================
