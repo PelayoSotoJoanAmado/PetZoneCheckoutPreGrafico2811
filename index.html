@@ -13,7 +13,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-
+    <script src="public/js/navbar-auth.js" defer></script>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
             <div class="navbar__logo">
                 <a href="index.html">
                     <img src="public/img/Logo.png" alt="Logo PetZone" class="navbar__logo-img">
-                </a>
+                </a>    
                 <a href="index.html" class="navbar__logo-text">
                     PetZone
                 </a>
@@ -44,11 +44,15 @@
                 </li>
             </ul>
 
-            <button class="navbar__btn" onclick="toggleCarrito()">
-                <span class="material-icons">shopping_cart</span>
-                CARRITO
-                <span id="cartCount" class="cart-count">0</span>
-            </button>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div id="authButtons"></div>
+                
+                <button class="navbar__btn" onclick="toggleCarrito()">
+                    <span class="material-icons">shopping_cart</span>
+                    CARRITO
+                    <span id="cartCount" class="cart-count">0</span>
+                </button>
+            </div>
         </nav>
     </header>
 
