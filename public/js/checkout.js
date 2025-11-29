@@ -23,7 +23,38 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // CARGAR PRODUCTOS DEL CARRITO REAL
     loadCartData();
+    
+    // AUTOCOMPLETAR SI HAY USUARIO LOGUEADO
+    loadUserDataIfAuthenticated();
 });
+/*
+document.addEventListener('DOMContentLoaded', () => {
+    setupFormValidation();
+    setupCardForm();
+    setupDistrictsSelector();
+    
+    // CARGAR PRODUCTOS DEL CARRITO REAL
+    loadCartData();
+});*/
+
+// AUTOCOMPLETAR DATOS SI HAY USUARIO LOGUEADO - new
+async function loadUserDataIfAuthenticated() {
+    try {
+        const response = await fetch('../routes/router.php?recurso=usuarios&action=check');
+        const data = await response.json();
+        
+        if (data.authenticated && data.user) {
+            // Autocompletar datos del usuario
+            document.getElementById('nombre').value = data.user.nombre || '';
+            document.getElementById('telefono').value = data.user.telefono || '';
+            document.getElementById('email').value = data.user.email || '';
+            
+            console.log('✅ Datos de usuario autocargados');
+        }
+    } catch (error) {
+        console.error('Error al cargar datos del usuario:', error);
+    }
+}
 
 // CARGAR DATOS DEL CARRITO REAL
 async function loadCartData() {
