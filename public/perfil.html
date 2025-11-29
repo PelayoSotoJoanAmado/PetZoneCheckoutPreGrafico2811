@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - PetZone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar__logo">
+                <a href="../index.html">
+                    <img src="img/Logo.png" alt="Logo PetZone" class="navbar__logo-img">
+                </a>
+                <a href="../index.html" class="navbar__logo-text">PetZone</a>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div id="authButtons"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <span class="material-icons auth-icon">person</span>
+                    <h1>Mi Perfil</h1>
+                    <p>Información de tu cuenta</p>
+                </div>
+
+                <div id="perfilContent" style="padding: 2rem 0;">
+                    <div style="text-align: center; padding: 2rem;">
+                        <span class="material-icons rotating" style="font-size: 3rem; color: #23906F;">sync</span>
+                        <p>Cargando...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__content">
+            <div class="footer__logo">
+                <img src="img/Logo.png" alt="PetZone Logo" class="footer__logo-img">
+                <span class="footer__logo-text">PetZone</span>
+            </div>
+            <nav class="footer__nav">
+                <ul class="footer__menu">
+                    <li class="footer__copyright">PetZone © 2025. Todos los derechos reservados.</li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="js/navbar-auth.js"></script>
+    <script>
+        async function loadPerfil() {
+            try {
+                const response = await fetch('../routes/router.php?recurso=usuarios&action=check');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                const content = document.getElementById('perfilContent');
+                content.innerHTML = `
+                    <div style="display: grid; gap: 1.5rem;">
+                        <div style="padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <strong>Nombre:</strong> ${data.user.nombre}
+                        </div>
+                        <div style="padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <strong>Email:</strong> ${data.user.email}
+                        </div>
+                        <div style="padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <strong>Teléfono:</strong> ${data.user.telefono}
+                        </div>
+                        <div style="padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <strong>Miembro desde:</strong> ${new Date(data.user.fecha_registro).toLocaleDateString('es-ES')}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadPerfil);
+    </script>
+</body>
+</html>

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/style-reserva.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <script src="js/navbar-auth.js" defer></script>
 </head>
 
 <body>
@@ -45,11 +46,17 @@
                 </li>
             </ul>
 
-            <button class="navbar__btn" onclick="toggleCarrito()">
-                <span class="material-icons">shopping_cart</span>
-                CARRITO
-                <span id="cartCount" class="cart-count" style="display: none;">0</span>
-            </button>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <!-- Botones de autenticación (se llenan dinámicamente) -->
+                <div id="authButtons"></div>
+                
+                <!-- Botón del carrito -->
+                <button class="navbar__btn" onclick="toggleCarrito()">
+                    <span class="material-icons">shopping_cart</span>
+                    CARRITO
+                    <span id="cartCount" class="cart-count" style="display: none;">0</span>
+                </button>
+            </div>
         </nav>
     </header>
 
